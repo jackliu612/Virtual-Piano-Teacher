@@ -13,7 +13,7 @@ public class Comp {
 	public static ArrayList<Event> midiScore;
 	
 	public static int tempo;
-	public static ArrayList<Integer> dLevels;
+	public static ArrayList<Integer> dLevels = new ArrayList<Integer>();
 	
 	public static void main (String args[]) throws FileNotFoundException{
 		//Scanner keybd = new Scanner(System.in);
@@ -23,9 +23,9 @@ public class Comp {
 		//Mxml_input = keybd.nextLine();
 		
 		xmlScore=XMLparser.parse(args[0]/*Mxml_input*/+".xml");
-		midiScore=MIDIparser.parse(args[1]/*Midi_input*/+".txt");
+		midiScore=MIDIparser.parse(args[0]/*Midi_input*/+".txt");
 		
-		importCal(args[2]/*calibration file*/+".txt");
+		importCal(args[1]/*calibration file*/+".txt");
 		System.out.println(tempo);
 		System.out.println(dLevels);
 		/*Collections.sort(midiScore, new Sortbystart());
@@ -72,8 +72,9 @@ public class Comp {
 		try{
 			tempo = Integer.parseInt(infile.nextLine());
 			while(infile.hasNext()){
-			
-				dLevels.add(Integer.parseInt(infile.next()));
+				String next = infile.next();
+				System.out.println("Processing: " + next + "|");
+				dLevels.add(Integer.parseInt(next));
 			}
 			Collections.sort(dLevels);
 			
