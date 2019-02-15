@@ -33,7 +33,89 @@ public class Comp {
 		System.out.println(midiScore);
 		compare(xmlScore, midiScore);*/
 	}
-	public static void makeTesting(){
+
+	public static void importCal(String s) throws FileNotFoundException{
+		Scanner infile = new Scanner(new File(s));
+		try{
+			tempo = Integer.parseInt(infile.nextLine());
+			while(infile.hasNext()){
+				String next = infile.next();
+				System.out.println("Processing: " + next + "|");
+				dLevels.add(Integer.parseInt(next));
+			}
+			Collections.sort(dLevels);
+			
+		}catch(Exception e){
+			if(e instanceof FileNotFoundException){
+				System.out.println("File not Found");
+			}
+			else if(e instanceof NoSuchElementException){
+				System.out.println("Calibration file improperly formatted");
+			}
+			else{
+				System.out.println(e);
+			}	
+		}
+		infile.close();
+	}
+	public static void compare(ArrayList<Event> xml, ArrayList<Event> midi, TreeMap<Integer,Integer> dMeasures){
+		int currentDynmLevel = dMeasures.get(0);
+		int nextDynmIndex = 1;
+		
+		String s= "";
+		double time = 0;
+		for(int x = 0; x < xml.size(); x++){
+			time = midi.get(x).getStart()/tempo;
+			/*if(xml.get(x).getPlay()){
+				numNote++;
+			}*/
+			s = "";
+			if(!xml.get(x).equals(midi.get(x))){
+				Event a = xml.get(x);
+				Event b = midi.get(x);
+				if(b.getPlay()){
+					if(b.getNote()!=a.getNote()){
+						s += ", Pitch off";
+					}
+					if(b.getStart() > a.getStart()){
+						s += ", Started too slow";
+					}
+					if(b.getStart() < a.getStart()){
+						s += ", Started too fast";
+					}
+					if(midi.get(x).getVel()>77+10){
+						s += ", Too loud";
+					}
+					if(midi.get(x).getVel()<77-10){
+						s += ",Too soft";
+					}
+				}
+				else{
+					if(b.getStart() > a.getStart()){
+						s += ", Ended too slow";
+					}
+					if(b.getStart() < a.getStart()){
+						s += ", Ended too fast";
+					}
+				}
+			}
+			
+			if(!s.equals("")){
+				System.out.println("Note "+ time + "" + s);
+			}
+			
+		}
+	}
+	public void calibrate(ArrayList<Event> midi) throws FileNotFoundException{
+		int sum = 0;
+		for(int i = 0; i < 24; i+=2){
+			sum += midi.get(i).getStart()-midi.get(i+1).getStart();
+		}
+		int tempo = sum/12-(sum/12)%10;
+		System.setOut(new PrintStream(new File("d.txt")));
+		System.out.println(tempo);
+	}
+		public static void makeTesting(){
 		testing.add(new Event(0, 49, true));
 		testing.add(new Event(0, 82, true));
 		testing.add(new Event(250, 49, false));
@@ -66,85 +148,6 @@ public class Comp {
 		testing.add(new Event(1750, 87, true));
 		testing.add(new Event(2000, 56, false));
 		testing.add(new Event(2000, 87, false));
-	}
-	public static void importCal(String s) throws FileNotFoundException{
-		Scanner infile = new Scanner(new File(s));
-		try{
-			tempo = Integer.parseInt(infile.nextLine());
-			while(infile.hasNext()){
-				String next = infile.next();
-				System.out.println("Processing: " + next + "|");
-				dLevels.add(Integer.parseInt(next));
-			}
-			Collections.sort(dLevels);
-			
-		}catch(Exception e){
-			if(e instanceof FileNotFoundException){
-				System.out.println("File not Found");
-			}
-			else if(e instanceof NoSuchElementException){
-				System.out.println("Calibration file improperly formatted");
-			}
-			else{
-				System.out.println(e);
-			}	
-		}
-		infile.close();
-	}
-	public static void compare(ArrayList<Event> xml, ArrayList<Event> midi){
-		String s= "";
-		double time = 0;
-		for(int x = 0; x < xml.size(); x++){
-			time = midi.get(x).getStart()/90.0;
-			/*if(xml.get(x).getPlay()){
-				numNote++;
-			}*/
-			s = "";
-			if(!xml.get(x).equals(midi.get(x))){
-				Event a = xml.get(x);
-				Event b = midi.get(x);
-				s = "Note "+ time + "";
-				if(b.getPlay()){
-					if(b.getNote()!=a.getNote()){
-						s += ", Pitch off";
-					}
-					if(b.getStart() > a.getStart()){
-						s += ", Started too slow";
-					}
-					if(b.getStart() < a.getStart()){
-						s += ", Started too fast";
-					}
-					if(midi.get(x).getVel()>77+10){
-						s += ", Too loud";
-					}
-					if(midi.get(x).getVel()<77-10){
-						s += ",Too soft";
-					}
-				}
-				else{
-					if(b.getStart() > a.getStart()){
-						s += ", Ended too slow";
-					}
-					if(b.getStart() < a.getStart()){
-						s += ", Ended too fast";
-					}
-				}
-			}
-			
-			if(!s.equals("")){
-			System.out.println(s);
-			}
-			
-		}
-	}
-	public void calibrate(ArrayList<Event> midi) throws FileNotFoundException{
-		int sum = 0;
-		for(int i = 0; i < 24; i+=2){
-			sum += midi.get(i).getStart()-midi.get(i+1).getStart();
-		}
-		int tempo = sum/12-(sum/12)%10;
-		System.setOut(new PrintStream(new File("d.txt")));
-		System.out.println(tempo);
 	}
 }
 /**********************************************
