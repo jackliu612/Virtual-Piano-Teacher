@@ -76,6 +76,10 @@ class UserHandler extends DefaultHandler {
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
+		
+		// Slurs:https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-slur.htm
+		// Staccato:http://usermanuals.musicxml.com/MusicXML/MusicXML.htm#EL-MusicXML-staccato.htm%3FTocPath%3DMusicXML%2520Reference%7CScore%2520Schema%2520(XSD)%7CElements%7Cnote%7C_____98
+		
 		if (qName.equalsIgnoreCase("chord")) {
 			chord=true;
 		}
@@ -87,9 +91,9 @@ class UserHandler extends DefaultHandler {
 					time=prevT;
 					chord=false;
 				}
-				temp = new Event(time, n+OFFSET, true);
+				temp = new Event(time, n+OFFSET, true, 0, 0);
 				XMLparser.tEvents.add(temp);
-				temp = new Event(time+d*rTempo, n+OFFSET, false);
+				temp = new Event(time+d*rTempo, n+OFFSET, false, 0, 0);
 				XMLparser.tEvents.add(temp);
 			}
 			prevT=time;	

@@ -3,15 +3,15 @@ public class Event implements Comparable<Event>{
 	//private int duration ;
 	private int note;
 	private int vel;
+	private int art;
 	private boolean play;
 	
 	public Event(){
-	}
-	
-	public Event (int s, int n, boolean p){
-		start = s;
-		note = n;
-		play = p;
+		start = 0; 
+		note = 0;
+		play = false;
+		vel = 0;
+		art = 0;
 	}
 	
 	public Event (int s, int n, boolean p, int v){
@@ -19,6 +19,14 @@ public class Event implements Comparable<Event>{
 		note = n;
 		play = p;
 		vel = v;
+	}
+	
+	public Event (int s, int n, boolean p, int v, int a){
+		start = s; 
+		note = n;
+		play = p;
+		vel = v;
+		art = a;
 	}
 	
 	@Override
@@ -62,6 +70,10 @@ public class Event implements Comparable<Event>{
 		return this.vel;
 	}
 	
+	public int getArt(){
+		return this.art;
+	}
+	
 	public void setStart(int s){
 		this.start = s;
 	}
@@ -74,6 +86,9 @@ public class Event implements Comparable<Event>{
 		this.play = p;
 	}
 	
+	public void setArticulation(int a){
+		this.art = a;
+	}
 	
 	public String toString(){
 		return "["+start+", "+note+", "+play+", "+vel+"]\n";
