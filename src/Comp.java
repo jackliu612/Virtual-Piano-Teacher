@@ -129,38 +129,7 @@ public class Comp {
 	}
 
 	public static void makeTesting() {
-		testing.add(new Event(0, 49, true));
-		testing.add(new Event(0, 82, true));
-		testing.add(new Event(250, 49, false));
-		testing.add(new Event(250, 56, true));
-		testing.add(new Event(500, 56, false));
-		testing.add(new Event(500, 82, false));
-		testing.add(new Event(500, 61, true));
-		testing.add(new Event(500, 80, true));
-		testing.add(new Event(750, 61, false));
-		testing.add(new Event(750, 80, false));
-		testing.add(new Event(750, 56, true));
-		testing.add(new Event(750, 77, true));
-		testing.add(new Event(1000, 56, false));
-		testing.add(new Event(1000, 77, false));
-		testing.add(new Event(1000, 65, true));
-		testing.add(new Event(1000, 68, true));
-		testing.add(new Event(1000, 77, true));
-		testing.add(new Event(1250, 65, false));
-		testing.add(new Event(1250, 68, false));
-		testing.add(new Event(1250, 77, false));
-		testing.add(new Event(1250, 56, true));
-		testing.add(new Event(1250, 82, true));
-		testing.add(new Event(1500, 56, false));
-		testing.add(new Event(1500, 82, false));
-		testing.add(new Event(1500, 61, true));
-		testing.add(new Event(1500, 80, true));
-		testing.add(new Event(1750, 61, false));
-		testing.add(new Event(1750, 80, false));
-		testing.add(new Event(1750, 56, true));
-		testing.add(new Event(1750, 87, true));
-		testing.add(new Event(2000, 56, false));
-		testing.add(new Event(2000, 87, false));
+		//See comments below
 	}
 }
 /**********************************************

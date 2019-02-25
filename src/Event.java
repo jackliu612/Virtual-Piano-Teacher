@@ -91,6 +91,6 @@ public class Event implements Comparable<Event>{
 	}
 	
 	public String toString(){
-		return "["+start+", "+note+", "+play+", "+vel+"]\n";
+		return "["+start+", "+note+", "+play+", "+vel+", "+art+"]\n";
 	}
 }
