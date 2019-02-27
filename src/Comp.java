@@ -81,7 +81,7 @@ public class Comp {
 				if(note>7)
 					DynmIndex = 3;
 			}
-			if (!xml.get(x).equals(midi.get(x))) {
+			/*if (!xml.get(x).equals(midi.get(x))) {*/
 				Event a = xml.get(x);
 				Event b = midi.get(x);
 				if (b.getPlay()) {
@@ -104,10 +104,10 @@ public class Comp {
 					if (b.getStart() > a.getStart()) {
 						//s += ", Ended too slow";
 					}
-					if (b.getStart() < a.getStart()) {
+					if (b.getStart() < a.getStart() && b.getArt() != 1) {
 						//s += ", Ended too fast";
 					}
-				}
+				//}
 			}
 
 			if (!s.equals("")) {
