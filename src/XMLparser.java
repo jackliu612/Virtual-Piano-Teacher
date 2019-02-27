@@ -46,9 +46,10 @@ class UserHandler extends DefaultHandler {
 	int time = 0;
 	int tempo = 120;
 	int rTempo;
-	int s, d, n = 0;
+	int s, d, n, art = 0;
 	int prevT=0;
 	boolean p;
+	boolean slurCont;
 	Event temp;
 	HashMap<String, Integer> keys = XMLparser.keys;
 	
@@ -71,7 +72,12 @@ class UserHandler extends DefaultHandler {
 			duration = true;
 		} else if (qName.equalsIgnoreCase("rest")) {
 			rst = true;
-		} 
+		} else if (qName.equalsIgnoreCase("staccato")){
+			art = 1;
+		} else if (qName.equalsIgnoreCase("slur")){
+			art = 2;
+			slurCont = attributes.getValue("type").equalsIgnoreCase("start");
+		}
 	}
 
 	@Override
@@ -91,10 +97,12 @@ class UserHandler extends DefaultHandler {
 					time=prevT;
 					chord=false;
 				}
-				temp = new Event(time, n+OFFSET, true, 0, 0);
+				temp = new Event(time, n+OFFSET, true, 0, art);
 				XMLparser.tEvents.add(temp);
-				temp = new Event(time+d*rTempo, n+OFFSET, false, 0, 0);
+				temp = new Event(time+d*rTempo, n+OFFSET, false, 0, art);
 				XMLparser.tEvents.add(temp);
+				if(!slurCont)
+					art = 0;
 			}
 			prevT=time;	
 			time=time+d*rTempo;
